@@ -15,29 +15,40 @@ import ..RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 export compute_stress_elastic, compute_pressure_elastic
 
 # Basic viscous/elastic/plastic building blocks, one struct per file, grouped by
-# category. Advanced / application-specific models (built from these blocks) sit
-# alongside their category and are intentionally NOT exported.
-include("rheology/viscous/LinearViscosity.jl")
-include("rheology/viscous/PowerLawViscosity.jl")
-include("rheology/viscous/BulkViscosity.jl")
-include("rheology/viscous/LTPViscosity.jl")
-include("rheology/viscous/DiffusionCreep.jl")
-include("rheology/viscous/DislocationCreep.jl")
+# category (and, where the literature draws a clear line, by sub-family).
+# Advanced / application-specific models (built from these blocks) sit alongside
+# their category and are intentionally NOT exported.
+
+# viscous: Newtonian (linear stress-strain-rate) vs non-Newtonian (rate-dependent).
+# Rate-and-state friction lives here too: despite the filename, it has no yield
+# surface or plastic multiplier -- compute_strain_rate is a smooth, invertible
+# function of stress at every stress level, exactly like the other non-Newtonian
+# (sinh-type) laws, so per its own AbstractViscosity supertype it belongs here.
+include("rheology/viscous/newtonian/LinearViscosity.jl")
+include("rheology/viscous/newtonian/BulkViscosity.jl")
+include("rheology/viscous/newtonian/DiffusionCreep.jl")
+include("rheology/viscous/nonnewtonian/PowerLawViscosity.jl")
+include("rheology/viscous/nonnewtonian/LTPViscosity.jl")
+include("rheology/viscous/nonnewtonian/DislocationCreep.jl")
+include("rheology/viscous/nonnewtonian/RateState_HypoPlastic.jl")
 
 include("rheology/elastic/Elasticity.jl")
 include("rheology/elastic/BulkElasticity.jl")
 include("rheology/elastic/IncompressibleElasticity.jl")
 
-include("rheology/plastic/DruckerPrager.jl")
-include("rheology/plastic/DruckerPragerCap.jl")
-include("rheology/plastic/Golchin.jl")
-include("rheology/plastic/Hyperbolic.jl")
-include("rheology/plastic/ModCamClay.jl")
-include("rheology/plastic/RateState_HypoPlastic.jl")
+# plastic: frictional/Coulomb-type family (cohesion + friction + dilation angle;
+# open cone yield surface, with cap/smoothed-corner variants) vs critical-state
+# family (M/N + tensile/compaction pressure parametrization; closed elliptical
+# yield surface, e.g. Cam-Clay and its extensions).
+include("rheology/plastic/frictional/DruckerPrager.jl")
+include("rheology/plastic/frictional/DruckerPragerCap.jl")
+include("rheology/plastic/frictional/Hyperbolic.jl")
+include("rheology/plastic/criticalstate/ModCamClay.jl")
+include("rheology/plastic/criticalstate/Golchin.jl")
 
 include("utils/tensor_helpers.jl")
 
-export LinearViscosity, LinearViscosityStress, PowerLawViscosity
+export LinearViscosity, PowerLawViscosity
 export Elasticity, BulkElasticity, IncompressibleElasticity, BulkViscosity
 export LTPViscosity, DruckerPrager, DiffusionCreep, DislocationCreep
 
