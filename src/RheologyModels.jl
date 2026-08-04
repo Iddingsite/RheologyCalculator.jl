@@ -24,13 +24,13 @@ export compute_stress_elastic, compute_pressure_elastic
 # surface or plastic multiplier -- compute_strain_rate is a smooth, invertible
 # function of stress at every stress level, exactly like the other non-Newtonian
 # (sinh-type) laws, so per its own AbstractViscosity supertype it belongs here.
-include("rheology/viscous/newtonian/LinearViscosity.jl")
-include("rheology/viscous/newtonian/BulkViscosity.jl")
-include("rheology/viscous/newtonian/DiffusionCreep.jl")
-include("rheology/viscous/nonnewtonian/PowerLawViscosity.jl")
-include("rheology/viscous/nonnewtonian/LTPViscosity.jl")
-include("rheology/viscous/nonnewtonian/DislocationCreep.jl")
-include("rheology/viscous/nonnewtonian/RateState_HypoPlastic.jl")
+include("rheology/viscous/Newtonian/LinearViscosity.jl")
+include("rheology/viscous/Newtonian/BulkViscosity.jl")
+include("rheology/viscous/Newtonian/DiffusionCreep.jl")
+include("rheology/viscous/nonNewtonian/PowerLawViscosity.jl")
+include("rheology/viscous/nonNewtonian/LTPViscosity.jl")
+include("rheology/viscous/nonNewtonian/DislocationCreep.jl")
+include("rheology/viscous/nonNewtonian/RateState_HypoPlastic.jl")
 
 include("rheology/elastic/Elasticity.jl")
 include("rheology/elastic/BulkElasticity.jl")
