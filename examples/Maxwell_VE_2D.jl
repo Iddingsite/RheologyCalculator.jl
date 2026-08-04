@@ -1,7 +1,7 @@
 using RheologyCalculator
 using RheologyCalculator.RheologyModels, StaticArrays
 
-# using GLMakie
+using GLMakie
 using Statistics: mean
 
 
