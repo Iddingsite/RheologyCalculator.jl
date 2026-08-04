@@ -5,7 +5,6 @@ import RheologyCalculator:
     _weighted_backstress,
     _kv_branch_correction, _kv_corrections,
     effective_strain_rate_correction
-
 # -----------------------------------------------------------------------
 # Shared test parameters
 # -----------------------------------------------------------------------
