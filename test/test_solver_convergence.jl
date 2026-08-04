@@ -1,5 +1,5 @@
 using Test, StaticArrays
-import RheologyCalculator: mynorm, _direct_leaf_elastic_correction, second_invariant_value
+import RheologyCalculatorBase: mynorm, _direct_leaf_elastic_correction, second_invariant_value
 
 function converged_residual(c, x, vars0, others, xnorm)
     ε_corr = _direct_leaf_elastic_correction(c, vars0.ε, others)

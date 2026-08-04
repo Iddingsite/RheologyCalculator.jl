@@ -1,11 +1,10 @@
 using RheologyCalculator
+import RheologyCalculator: second_invariant_2D, tensor_strain_rate_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 
 using GLMakie
 using LaTeXStrings
 
-include("../rheologies/RheologyDefinitions.jl")
-include("tensor_helpers.jl")
 
 function stress_time(c, vars, x, xnorm, others; ntime = 200, dt = 1.0e8, verbose = false)
     τ1 = zeros(ntime)

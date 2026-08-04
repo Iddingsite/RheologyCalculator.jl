@@ -1,12 +1,11 @@
-using RheologyCalculator
+using RheologyCalculator, StaticArrays
+import RheologyCalculator: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 using Statistics: mean
 
 using GLMakie
 GLMakie.activate!(; visible = false)
 
-include("../rheologies/RheologyDefinitions.jl")
-include("tensor_helpers.jl")
 
 # Analytical solution for the Mixed Kelvin-Voigt and Maxwell body
 #

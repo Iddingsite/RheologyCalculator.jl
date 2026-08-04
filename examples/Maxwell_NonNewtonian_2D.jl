@@ -4,7 +4,6 @@ import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 # using GLMakie
 import Statistics: mean
 
-include("../rheologies/RheologyDefinitions.jl")
 
 analytical_solution(ϵ, t, G, η) = 2 * ϵ * η * (1 - exp(-G * t / η))
     

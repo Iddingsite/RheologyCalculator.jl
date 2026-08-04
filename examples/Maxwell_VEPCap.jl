@@ -3,13 +3,12 @@
 #   stable two-field mixed formulation, EGUsphere [preprint], https://doi.org/10.5194/egusphere-2025-2469, 2025.
 using Test, LinearAlgebra
 using RheologyCalculator
+import RheologyCalculator: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 using GLMakie
 using StaticArrays
 
-include("../rheologies/RheologyDefinitions.jl")
-include("../rheologies/DruckerPragerCap.jl")
-include("tensor_helpers.jl")
+import RheologyCalculator: DruckerPragerCap, compute_F, compute_Q
 
 function stress_time(c, vars, x, xnorm, others; ntime = 200, dt = 1.0e8)
     # Extract elastic stresses/pressure from solution vector

@@ -3,49 +3,32 @@
 
 Build and solve local rheological models assembled from viscous, elastic, and
 plastic elements.
-
-The package core provides the composite containers (`SeriesModel`,
-`ParallelModel`), equation generation, solver utilities, and the state-function
-interface that concrete rheologies extend. Example rheology definitions live in
-the repository's `rheologies/` directory and can be used as templates for
-application-specific material laws.
 """
 module RheologyCalculator
 
+using Reexport
+@reexport using RheologyCalculatorBase
 using StaticArrays, LinearAlgebra
 import ForwardDiff: ForwardDiff
 
-import Base.IteratorsMD.flatten
+# postprocessing helpers used by the tensor helpers below and by downstream code
+import RheologyCalculatorBase: compute_stress_elastic, compute_pressure_elastic
+export compute_stress_elastic, compute_pressure_elastic
 
-include("core/rheology_types.jl")
-export AbstractViscosity, AbstractPlasticity, AbstractElasticity
+include("rheology/rheology_definitions.jl")
 
-include("core/state_functions.jl")
+# Advanced / application-specific material models built from the basic elements.
+# These are intentionally NOT exported
+include("rheology/models/Hyperbolic.jl")
+include("rheology/models/ModCamClay.jl")
+include("rheology/models/DruckerPragerCap.jl")
+include("rheology/models/Golchin.jl")
+include("rheology/models/RateState_HypoPlastic.jl")
 
-include("core/composite.jl")
-export CompositeModel, SeriesModel, ParallelModel
+include("utils/tensor_helpers.jl")
 
-include("core/kwargs.jl")
+export LinearViscosity, LinearViscosityStress, PowerLawViscosity
+export Elasticity, BulkElasticity, IncompressibleElasticity, BulkViscosity
+export LTPViscosity, DruckerPrager, DiffusionCreep, DislocationCreep
 
-include("equation_system/equations.jl")
-export generate_equations
-
-include("core/others.jl")
-
-include("postprocessing/post_calculations.jl")
-
-include("equation_system/initial_guess.jl")
-export initial_guess_x, x_keys
-
-include("equation_system/normalize_x.jl")
-export normalisation_x
-
-include("equation_system/solver.jl")
-export solve
-
-include("postprocessing/strain_rate_correction.jl")
-export effective_strain_rate_correction
-
-include("display/print_rheology.jl")
-
-end # module Rheology
+end

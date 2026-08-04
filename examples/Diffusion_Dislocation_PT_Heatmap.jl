@@ -3,7 +3,6 @@ using RheologyCalculator
 using GLMakie
 using LaTeXStrings
 
-include("../rheologies/RheologyDefinitions.jl")
 
 function creep_prefactors(diffusion, dislocation, T, P, f, d)
     Cdiff = diffusion.A * f^diffusion.r * d^(-diffusion.p) * exp(-(diffusion.E + P * diffusion.V) / (diffusion.R * T))

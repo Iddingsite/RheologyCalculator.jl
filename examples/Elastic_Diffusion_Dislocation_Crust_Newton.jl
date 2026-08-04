@@ -1,7 +1,7 @@
 using GLMakie
 using Printf
 
-include("../rheologies/RheologyDefinitions.jl")
+using RheologyCalculator
 
 const SecYear = 365.25 * 24 * 3600
 

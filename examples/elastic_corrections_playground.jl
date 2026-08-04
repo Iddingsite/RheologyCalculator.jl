@@ -7,8 +7,6 @@ using GLMakie
 import Statistics: mean
 using LinearAlgebra
 
-include("../rheologies/RheologyDefinitions.jl")
-
 # Define rheology
 #=
 c, x, τ0, ε, args, others = let

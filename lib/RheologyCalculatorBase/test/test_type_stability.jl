@@ -1,5 +1,5 @@
 using JET
-import RheologyCalculator: compute_pressure_elastic, compute_residual, compute_stress_elastic
+import RheologyCalculatorBase: compute_pressure_elastic, compute_residual, compute_stress_elastic
 
 function type_stability_fixture()
     viscous = LinearViscosity(5.0e19)

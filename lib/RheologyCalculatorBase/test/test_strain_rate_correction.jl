@@ -1,11 +1,10 @@
-import RheologyCalculator:
+import RheologyCalculatorBase:
     count_elastic, _n_elastic_in_parallel,
     _iselastic,
     _η_eff_maxwell, _η_eff_elastic, _η_KV,
     _weighted_backstress,
     _kv_branch_correction, _kv_corrections,
     effective_strain_rate_correction
-
 # -----------------------------------------------------------------------
 # Shared test parameters
 # -----------------------------------------------------------------------

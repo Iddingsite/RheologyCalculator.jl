@@ -6,7 +6,7 @@ using RheologyCalculator
 import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 using StaticArrays
 
-include("../rheologies/DruckerPragerCap.jl")
+import RheologyCalculator: DruckerPragerCap
 
 @testset "VEPCap Model " begin
     function stress_time(c, vars, x, xnorm, others; ntime = 200, dt = 1.0e8)

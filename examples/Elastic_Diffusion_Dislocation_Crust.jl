@@ -1,10 +1,9 @@
 using RheologyCalculator
+import RheologyCalculator: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 import RheologyCalculator: compute_strain_rate
 
 using GLMakie
 
-include("../rheologies/RheologyDefinitions.jl")
-include("tensor_helpers.jl")
 
 const SecYear = 365.25 * 24 * 3600
 
