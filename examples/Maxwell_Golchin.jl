@@ -1,13 +1,13 @@
 # This implements the Golchin yield function
 using Test, LinearAlgebra
-using RheologyCalculatorBase, RheologyCalculator
-using RheologyCalculator: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
-using RheologyCalculatorBase: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculator, RheologyCalculatorModels
+using RheologyCalculatorModels: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
+using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 using GLMakie 
 using StaticArrays
 
 
-using RheologyCalculator: Golchin, compute_F, compute_Q
+using RheologyCalculatorModels: Golchin, compute_F, compute_Q
 
 
 function stress_time(c, vars, x, xnorm, others; ntime = 200, dt = 1.0e8)
@@ -28,7 +28,7 @@ function stress_time(c, vars, x, xnorm, others; ntime = 200, dt = 1.0e8)
     for i in 2:ntime
         others = (; dt = dt, τ0 = τ_e, P0 = P_e)       # other non-differentiable variables needed to evaluate the state functions
         
-        x = RheologyCalculator.solve(c, x, vars, others, verbose = true, xnorm0=xnorm)
+        x = RheologyCalculatorModels.solve(c, x, vars, others, verbose = true, xnorm0=xnorm)
         
         t += others.dt
         
@@ -112,7 +112,7 @@ function figure()
     GLMakie.scatter!(ax4, P1/1e6, τ1/1e6, color = :green, label=L"3")
     axislegend(ax4, position=:lt)
 
-    GLMakie.save("./docs/assets/Golchin.png", fig)
+    GLMakie.save(joinpath(@__DIR__, "..", "docs", "assets", "Golchin.png"), fig)
 
     display(fig)
 end

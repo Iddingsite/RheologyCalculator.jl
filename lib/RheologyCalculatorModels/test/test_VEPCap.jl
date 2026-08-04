@@ -1,8 +1,14 @@
-using LinearAlgebra, Statistics, StaticArrays
+# This implements the mode1/mode2 plasticity model proposed in:
+# Popov, A. A., Berlie, N., and Kaus, B. J. P.: A dilatant visco-elasto-viscoplasticity model with globally continuous tensile cap: 
+#   stable two-field mixed formulation, EGUsphere [preprint], https://doi.org/10.5194/egusphere-2025-2469, 2025.
+using Test, LinearAlgebra, Statistics
+using RheologyCalculatorModels
+import RheologyCalculatorModels: compute_stress_elastic, compute_pressure_elastic
+using StaticArrays
 
-import RheologyCalculator: Hyperbolic
+import RheologyCalculatorModels: DruckerPragerCap
 
-# @testset "Hyperbolic   " begin
+@testset "VEPCap Model " begin
     function stress_time(c, vars, x, xnorm, others; ntime = 200, dt = 1.0e8)
         # Extract elastic stresses/pressure from solution vector
         τ1      = zeros(ntime)
@@ -17,7 +23,8 @@ import RheologyCalculator: Hyperbolic
         for i in 2:ntime
             others = (; dt = dt, τ0 = τ_e, P0 = P_e)       # other non-differentiable variables needed to evaluate the state functions
             
-            x = RheologyCalculator.solve(c, x, vars, others, verbose = false, xnorm0=xnorm)
+            x = RheologyCalculatorModels.solve(c, x, vars, others, verbose = false, xnorm0=xnorm)
+            
             t += others.dt
             
             τ_e = elastic_stress_history_2D(c, x[1], vars.ε, τ_e, others)
@@ -35,11 +42,10 @@ import RheologyCalculator: Hyperbolic
 
         viscous = LinearViscosity(1e23)
         elastic = Elasticity(1e10, 2e11)
-        plastic = Hyperbolic(; C=1e6, ϕ=30.0, ψ=5.0, η_vp=0.0, Pt=-5e5) 
+        plastic = DruckerPragerCap(; C=1e6, ϕ=30.0, ψ=10.0, η_vp=0.0, Pt=-5e5) 
 
-        # Maxwell viscoelastic model
         c  = SeriesModel(viscous, elastic, plastic)
-
+        
         # input variables (constant)
         vars = vars_2D(0*7.0e-14, 7.0e-15)
         # guess variables (we solve for these, differentiable)
@@ -55,23 +61,25 @@ import RheologyCalculator: Hyperbolic
         c, x, xnorm, vars, args, others
     end
 
+
     SecYear = 3600 * 24 * 365.25
-    t_v, τ, P = stress_time(c, vars_2D(0*7.0e-14, 7.0e-15), x, xnorm, others; ntime = 11, dt = SecYear*2)
-    @test mean(τ) ≈ 0.0
-    @test mean(P) ≈ -134205.23636363636
-    @test all(isfinite, τ)
-    @test all(isfinite, P)
+    t_v1, τ1, P1    = stress_time(c, vars_2D(0*7.0e-14, 7.0e-15), x, xnorm, others; ntime = 11, dt = SecYear*2)
 
-    t_v, τ, P = stress_time(c, vars_2D(7.0e-14, 0*7.0e-15), x, xnorm, others; ntime = 80, dt = 1e7)
-    @test mean(τ) ≈ 536901.6577557874
-    @test mean(P) ≈ 341487.7290700593
-    @test all(isfinite, τ)
-    @test all(isfinite, P)
+    @test mean(τ1) ≈ 0.0
+    @test mean(P1) ≈ -134205.23636363636
+    @test all(isfinite, τ1)
+    @test all(isfinite, P1)
 
-    t_v, τ, P = stress_time(c, vars_2D(7.0e-14, 7.0e-15), x, xnorm, others; ntime = 30, dt = 2e7)
-    @test mean(τ) ≈ 371075.3089791962
-    @test mean(P) ≈ 16814.444790283495
-    @test all(isfinite, τ)
-    @test all(isfinite, P)
+    t_v2, τ2, P2    = stress_time(c, vars_2D(7.0e-14, 0*7.0e-15), x, xnorm, others; ntime = 80, dt = 1e7)
+    @test mean(τ2) ≈ 551452.3775990973
+    @test mean(P2) ≈ 305322.99751051754
+    @test all(isfinite, τ2)
+    @test all(isfinite, P2)
 
-# end
+    t_v3, τ3, P3    = stress_time(c, vars_2D(7.0e-14, 7.0e-15), x, xnorm, others; ntime = 30, dt = 2e7)
+    @test mean(τ3) ≈ 401710.52503937355
+    @test mean(P3) ≈ -51828.69080112919
+    @test all(isfinite, τ3)
+    @test all(isfinite, P3)
+
+end

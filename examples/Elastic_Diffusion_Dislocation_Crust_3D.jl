@@ -1,5 +1,5 @@
-using RheologyCalculator
-using RheologyCalculator: compute_strain_rate
+using RheologyCalculatorModels
+using RheologyCalculatorModels: compute_strain_rate
 
 using GLMakie
 using Printf

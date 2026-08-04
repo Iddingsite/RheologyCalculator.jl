@@ -1,6 +1,5 @@
-using RheologyCalculator, StaticArrays, ForwardDiff, Chairmarks
-using RheologyCalculator: second_invariant_2D, tensor_strain_rate_2D, zero_stress_tensor_2D, elastic_stress_history_2D
-using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculatorModels, StaticArrays, ForwardDiff, Chairmarks
+using RheologyCalculatorModels: second_invariant_2D, tensor_strain_rate_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 import ForwardDiff: ForwardDiff
 
 

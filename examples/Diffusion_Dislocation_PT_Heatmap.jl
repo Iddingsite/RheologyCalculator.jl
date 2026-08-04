@@ -1,4 +1,4 @@
-using RheologyCalculator
+using RheologyCalculatorModels
 
 using GLMakie
 using LaTeXStrings
@@ -130,4 +130,4 @@ end
 d = 1.0e-3
 map = equal_mechanism_surface(diffusion, dislocation; d = d)
 fig = plot_equal_mechanism_surface(map; d = d)
-save("def_mechanism.png", fig)
+save(joinpath(@__DIR__, "..", "def_mechanism.png"), fig)

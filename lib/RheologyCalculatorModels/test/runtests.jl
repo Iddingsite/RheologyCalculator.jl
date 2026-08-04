@@ -1,14 +1,10 @@
-using RheologyCalculator, Test
+using RheologyCalculator, Test, RheologyCalculatorModels
 import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 import RheologyCalculator: compute_residual
+# tensor helpers live in RheologyCalculatorModels and are intentionally not exported
+import RheologyCalculatorModels: second_invariant_2D, tensor_strain_rate_2D, vars_2D, zero_stress_tensor_2D, stress_tensor_from_invariant_2D, elastic_stress_history_2D
 
 function runtests()
-    # Concrete rheological elements used across the core test suite. We include the
-    # single source of truth from the RheologyCalculatorModels package rather than a
-    # duplicate: the file only extends RheologyCalculator's interface functions
-    # (no RheologyCalculatorModels dependency), so the core still tests cycle-free.
-    include(joinpath(@__DIR__, "..", "lib", "RheologyCalculatorModels", "src", "rheology", "rheology_definitions.jl"))
-
     files = readdir(@__DIR__)
     test_files = filter(startswith("test_"), files)
 

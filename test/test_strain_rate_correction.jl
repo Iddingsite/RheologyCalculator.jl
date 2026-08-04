@@ -1,4 +1,4 @@
-import RheologyCalculatorBase:
+import RheologyCalculator:
     count_elastic, _n_elastic_in_parallel,
     _iselastic,
     _η_eff_maxwell, _η_eff_elastic, _η_KV,

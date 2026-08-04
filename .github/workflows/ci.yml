@@ -84,7 +84,7 @@ jobs:
       fail-fast: false
       matrix:
         project:
-          - lib/RheologyCalculatorBase
+          - lib/RheologyCalculatorModels
         version:
           - '1.12'
         os:
@@ -95,17 +95,17 @@ jobs:
           - x64
         allow_failure: [false]
         include:
-          - project: lib/RheologyCalculatorBase
+          - project: lib/RheologyCalculatorModels
             os: macOS-latest
             arch: aarch64
             version: 'pre'
             allow_failure: true
-          - project: lib/RheologyCalculatorBase
+          - project: lib/RheologyCalculatorModels
             os: ubuntu-latest
             arch: x86
             version: 'pre'
             allow_failure: true
-          - project: lib/RheologyCalculatorBase
+          - project: lib/RheologyCalculatorModels
             os: windows-latest
             arch: x86
             version: 'pre'

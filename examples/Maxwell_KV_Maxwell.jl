@@ -1,6 +1,5 @@
-using RheologyCalculator, StaticArrays
-using RheologyCalculator: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
-using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculatorModels, StaticArrays
+using RheologyCalculatorModels: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 using Statistics: mean
 
 using GLMakie
@@ -111,7 +110,7 @@ let
         scatter!(ax2, log10.(1 ./ dt), log10.(ϵ), color = :black, label = "mean rel. error")
         axislegend(ax2, position = :rt, labelsize = 18)
 
-        GLMakie.save("docs/assets/Maxwell_KV_Maxwell.png", fig)
+        GLMakie.save(joinpath(@__DIR__, "..", "docs", "assets", "Maxwell_KV_Maxwell.png"), fig)
         display(fig)
     end
     with_theme(figure, theme_latexfonts())

@@ -1,6 +1,5 @@
-using RheologyCalculator
-using RheologyCalculator: second_invariant_2D, tensor_strain_rate_2D, zero_stress_tensor_2D, elastic_stress_history_2D
-using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculatorModels
+using RheologyCalculatorModels: second_invariant_2D, tensor_strain_rate_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 
 using GLMakie
 using LaTeXStrings
@@ -122,7 +121,7 @@ let
         )
         colgap!(fig.layout, 35)
         display(fig)
-        save("VEVP_disl.png", fig)
+        save(joinpath(@__DIR__, "..", "VEVP_disl.png"), fig)
         return fig
     end
 

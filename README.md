@@ -10,46 +10,41 @@ viscous, elastic, and plastic building blocks. Elements can be composed in
 series, in parallel, or in nested hybrid networks, then converted into a
 nonlinear residual system solved with Newton iterations.
 
-The package core is independent of any particular material catalogue. The
-example rheologies in [`rheologies/`](./rheologies) define common viscous,
-elastic, plastic, and pressure-dependent laws by extending the state-function
-interface.
+## Repository layout
+
+This repository ships **two packages**:
+
+| Package | Location | What it is |
+| --- | --- | --- |
+| **`RheologyCalculator`** | repository root | The **core engine**: composition containers (`SeriesModel`, `ParallelModel`), equation generation, the Newton solver, and the state-function interface. Independent of any material catalogue. |
+| **`RheologyCalculatorModels`** | [`lib/RheologyCalculatorModels`](./lib/RheologyCalculatorModels) | Concrete constitutive elements (`LinearViscosity`, `Elasticity`, `DruckerPrager`, creep laws, …) plus advanced material models. **Start here if you just want to build and solve models.** |
+
+`RheologyCalculatorModels` depends on and **re-exports** `RheologyCalculator`, so
+a single `using RheologyCalculatorModels` gives you the full API — solver
+machinery *and* the material catalogue. Reach for `RheologyCalculator` on its own
+only when you want the solver engine without the bundled elements (for example,
+to supply your own material laws).
 
 ## Installation
 
-`RheologyCalculator.jl` is registered in the Julia General registry:
+The core engine is registered in the Julia General registry:
 
 ```julia
 using Pkg
 Pkg.add("RheologyCalculator")
 ```
 
-## Rheological element definitions
-
-The package exports the composition and solver machinery (`SeriesModel`,
-`ParallelModel`, `solve`, `initial_guess_x`, …) but **not** the concrete
-constitutive elements used throughout the examples (`LinearViscosity`,
-`Elasticity`, `DruckerPrager`, and the rest). Those are defined in
-[`rheologies/RheologyDefinitions.jl`](./rheologies/RheologyDefinitions.jl),
-which extends the package's state-function interface, and must be loaded
-explicitly:
-
-```julia
-using RheologyCalculator
-include("rheologies/RheologyDefinitions.jl")
-```
-
-The `include` path is relative to the current working directory, so the examples
-below assume a clone of this repository. When the package is installed with
-`Pkg.add`, `include` the file by an absolute path, or copy it (with any
-companion files from `rheologies/` that it needs) into your own project.
+The models package lives in this repository under
+[`lib/RheologyCalculatorModels`](./lib/RheologyCalculatorModels) — see its
+[README](./lib/RheologyCalculatorModels/README.md) for how to use it.
 
 ## Quick Start
 
-```julia
-using RheologyCalculator
+To quickly build and solve models, use `RheologyCalculatorModels` (it re-exports the
+core, so this one import is all you need):
 
-include("rheologies/RheologyDefinitions.jl")
+```julia
+using RheologyCalculatorModels
 
 viscous = LinearViscosity(1e22)
 elastic = IncompressibleElasticity(1e10)
@@ -62,6 +57,11 @@ others = (; dt = 1.0e10, τ0 = (0.0,), P0 = (0.0,))
 x = initial_guess_x(c, vars, args, others)
 x = solve(c, x, vars, others)
 ```
+
+> **Note:** `using RheologyCalculator` alone exports the composition and solver
+> machinery (`SeriesModel`, `ParallelModel`, `solve`, `initial_guess_x`, …) but
+> **not** the concrete elements (`LinearViscosity`, `Elasticity`, …). Those live
+> in `RheologyCalculatorModels`.
 
 ## Composite Models
 
@@ -93,7 +93,16 @@ comparison against the analytical solution, and
 [`docs/src/strain_rate_correction.md`](./docs/src/strain_rate_correction.md) for
 the elastic correction derivation.
 
-## Plasticity Models
+## Material models
+
+`RheologyCalculatorModels` bundles a catalogue of advanced material models. To
+keep the namespace small they are **not exported** — access them via the package
+prefix or an explicit import:
+
+```julia
+using RheologyCalculatorModels
+import RheologyCalculatorModels: DruckerPragerCap, Hyperbolic, ModCamClay, Golchin, RateStateFriction
+```
 
 ### VEP + Cap (Popov et al., 2025)
 

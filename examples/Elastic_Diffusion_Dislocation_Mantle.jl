@@ -1,6 +1,6 @@
-using RheologyCalculator
-using RheologyCalculator: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
-using RheologyCalculator: compute_strain_rate
+using RheologyCalculatorModels
+using RheologyCalculatorModels: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
+using RheologyCalculatorModels: compute_strain_rate
 
 using GLMakie
 using Printf
@@ -160,7 +160,7 @@ end
 
 history = simulate_mantle_creep(c, diffusion, dislocation, vars, x, xnorm, env)
 fig = plot_mantle_creep_history(history, diffusion, dislocation, elastic, env)
-# save("mantle_history.png", fig)
+# save(joinpath(@__DIR__, "..", "mantle_history.png"), fig)
 
 println("Elastic + diffusion + dislocation creep, mantle-like conditions")
 println("T = $(env.T) K, P = $(env.P / 1e9) GPa, d = $(env.d * 1e3) mm, εII = $(second_invariant_2D(vars.ε)) s^-1")

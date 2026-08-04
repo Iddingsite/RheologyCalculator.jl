@@ -2,10 +2,10 @@
 # Popov, A. A., Berlie, N., and Kaus, B. J. P.: A dilatant visco-elasto-viscoplasticity model with globally continuous tensile cap: 
 #   stable two-field mixed formulation, EGUsphere [preprint], https://doi.org/10.5194/egusphere-2025-2469, 2025.
 import ForwardDiff: ForwardDiff
-import RheologyCalculatorBase: compute_stress_elastic, compute_pressure_elastic
-import RheologyCalculatorBase: series_state_functions, parallel_state_functions, _isvolumetric
-import RheologyCalculatorBase: compute_strain_rate, compute_stress, compute_pressure, compute_volumetric_strain_rate, compute_volumetric_plastic_strain_rate
-import RheologyCalculatorBase: compute_plastic_strain_rate, compute_lambda
+import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+import RheologyCalculator: series_state_functions, parallel_state_functions, _isvolumetric
+import RheologyCalculator: compute_strain_rate, compute_stress, compute_pressure, compute_volumetric_strain_rate, compute_volumetric_plastic_strain_rate
+import RheologyCalculator: compute_plastic_strain_rate, compute_lambda
 
 # Hyperbolic ------------------------------------------------------
 """

@@ -1,12 +1,12 @@
 # Here we define individual rheological elements, which is not part of the computational core of
-# RheologyCalculatorBase as it may depend on your local implementation.
+# RheologyCalculator as it may depend on your local implementation.
 
 # These functions need to be imported, as we use multiple dispatch to extend them here
-import RheologyCalculatorBase: series_state_functions, parallel_state_functions
-import RheologyCalculatorBase: compute_strain_rate, compute_stress, compute_pressure, compute_volumetric_strain_rate, compute_volumetric_plastic_strain_rate
-import RheologyCalculatorBase: compute_plastic_strain_rate, compute_plastic_stress, compute_lambda, compute_lambda_parallel, _isvolumetric
-import RheologyCalculatorBase: compute_viscosity, compute_viscosity_series, compute_viscosity_parallel
-import RheologyCalculatorBase: _isvolumetric
+import RheologyCalculator: series_state_functions, parallel_state_functions
+import RheologyCalculator: compute_strain_rate, compute_stress, compute_pressure, compute_volumetric_strain_rate, compute_volumetric_plastic_strain_rate
+import RheologyCalculator: compute_plastic_strain_rate, compute_plastic_stress, compute_lambda, compute_lambda_parallel, _isvolumetric
+import RheologyCalculator: compute_viscosity, compute_viscosity_series, compute_viscosity_parallel
+import RheologyCalculator: _isvolumetric
 
 @inline signed_power(x, n) = sign(x) * abs(x)^n
 

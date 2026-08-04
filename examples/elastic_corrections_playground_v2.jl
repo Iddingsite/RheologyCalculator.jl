@@ -6,8 +6,7 @@
 # --⟦▪̲̅▫̲̅▫̲̅▫̲̅¹----/\/\/¹--|--⟦▪̲̅▫̲̅▫̲̅▫̲̅²--|
 #                     |--/\/\/²--| 
 
-using RheologyCalculator, StaticArrays
-using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculatorModels, StaticArrays
 
 using GLMakie
 using Statistics: mean

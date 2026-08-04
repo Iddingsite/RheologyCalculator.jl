@@ -1,6 +1,5 @@
-using RheologyCalculator
-using RheologyCalculator: second_invariant_2D, tensor_strain_rate_2D, zero_stress_tensor_2D, elastic_stress_history_2D
-using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculatorModels
+using RheologyCalculatorModels: second_invariant_2D, tensor_strain_rate_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 using StaticArrays
 using GLMakie
 using LaTeXStrings
@@ -116,7 +115,7 @@ let
         legend = Legend(fig[1, 2], ax, backgroundcolor = (:black, 0.0), framecolor = darkmode ? (:white, 0.25) : (:black, 0.25), labelcolor = darkmode ? :white : :black)
         colgap!(fig.layout, 35)
         display(fig)
-        save("VEVP.png", fig)
+        save(joinpath(@__DIR__, "..", "VEVP.png"), fig)
     end
 
     figure(darkmode = darkmode)

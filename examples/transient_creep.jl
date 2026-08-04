@@ -1,6 +1,5 @@
-using ForwardDiff, RheologyCalculator
-using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
-using RheologyCalculator: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
+using ForwardDiff, RheologyCalculatorModels
+using RheologyCalculatorModels: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 
 
 using GLMakie
@@ -74,5 +73,5 @@ axislegend(ax, position = :rb)
 #title!(ax,"Burgers model")
 ax.xlabel = L"t [kyr]"
 ax.ylabel = L"\tau [MPa]"
-save("Burgers_model.png", fig)
+save(joinpath(@__DIR__, "..", "Burgers_model.png"), fig)
 display(fig)
