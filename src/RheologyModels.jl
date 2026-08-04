@@ -6,9 +6,6 @@ plastic elements.
 """
 module RheologyModels
 
-# Brings the parent's exported names (SeriesModel, solve, AbstractViscosity, …)
-# into scope for the element/model definitions below. Not re-exported: callers
-# outside this module get the engine via a separate `using RheologyCalculator`.
 using ..RheologyCalculator
 using StaticArrays, LinearAlgebra
 import ForwardDiff: ForwardDiff
