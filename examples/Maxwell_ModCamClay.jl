@@ -1,12 +1,12 @@
 # This implements the hyperbolic yield function
 using Test, LinearAlgebra
 using RheologyCalculator
-import RheologyCalculator: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
-import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculator: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
+using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 using GLMakie 
 using StaticArrays
 
-import RheologyCalculator: ModCamClay, compute_F, compute_Q
+using RheologyCalculator: ModCamClay, compute_F, compute_Q
 
 function stress_time(c, vars, x, xnorm, others; ntime = 200, dt = 1.0e8)
     # Extract elastic stresses/pressure from solution vector

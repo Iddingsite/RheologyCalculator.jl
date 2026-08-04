@@ -1,6 +1,6 @@
 using RheologyCalculator, StaticArrays, ForwardDiff
-import RheologyCalculator: zero_stress_tensor_2D, elastic_stress_history_2D
-import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculator: zero_stress_tensor_2D, elastic_stress_history_2D
+using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 
 
 function compute_stress_tensor(ε, θ = 1.0e-20)

@@ -7,10 +7,10 @@
 #                     |--/\/\/²--| 
 
 using RheologyCalculator, StaticArrays
-import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 
 using GLMakie
-import Statistics: mean
+using Statistics: mean
 using LinearAlgebra
 
 

@@ -1,9 +1,9 @@
 using RheologyCalculator
-import RheologyCalculator: second_invariant_2D, tensor_strain_rate_2D, zero_stress_tensor_2D, elastic_stress_history_2D
-import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculator: second_invariant_2D, tensor_strain_rate_2D, zero_stress_tensor_2D, elastic_stress_history_2D
+using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 
 using GLMakie
-import Statistics: mean
+using Statistics: mean
 
 
 analytical_solution(ϵ, t, G, η) = 2 * ϵ * η * (1 - exp(-G * t / η))

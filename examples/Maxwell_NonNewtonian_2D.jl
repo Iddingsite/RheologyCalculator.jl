@@ -1,8 +1,8 @@
 using RheologyCalculator, StaticArrays
-import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 
 # using GLMakie
-import Statistics: mean
+using Statistics: mean
 
 
 analytical_solution(ϵ, t, G, η) = 2 * ϵ * η * (1 - exp(-G * t / η))

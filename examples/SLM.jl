@@ -1,6 +1,6 @@
 using RheologyCalculator
-import RheologyCalculator: vars_2D, zero_stress_tensor_2D, stress_tensor_from_invariant_2D, elastic_stress_history_2D
-import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculator: vars_2D, zero_stress_tensor_2D, stress_tensor_from_invariant_2D, elastic_stress_history_2D
+using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 
 using GLMakie
 
