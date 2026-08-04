@@ -608,7 +608,7 @@ end
 # unlike matching on rheology type alone, which can be fooled by a *different*
 # branch's nested equation sharing the same leaf type.
 #
-# `.parent`/`.self` are runtime Int64 fields (not part of `CompositeEquation`'s
+# `.parent`/`.self` are runtime `Int` fields (not part of `CompositeEquation`'s
 # type), so this match can't be resolved at `@generated` specialisation time;
 # only the `fn === compute_stress` pre-filter can (CompositeEquation{IsGlobal,
 # T, F, R, RT}: F is parameter index 3). The pre-filtered candidate positions

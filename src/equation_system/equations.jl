@@ -9,15 +9,15 @@ indices, state function `fn`, rheology tuple, input-variable index, and
 type-local element numbering for history lookup.
 """
 struct CompositeEquation{IsGlobal, T, F, R, RT}
-    parent::Int64       # i-th element of x to be substracted
+    parent::Int       # i-th element of x to be substracted
     child::T            # i-th element of x to be added
-    self::Int64         # equation number
+    self::Int         # equation number
     fn::F               # state function
     rheology::R
-    ind_input::Int64
+    ind_input::Int
     el_number::RT
 
-    function CompositeEquation(parent::Int64, child::T, self::Int64, fn::F, rheology::R, ind_input, ::Val{B}, el_number::RT) where {T, F, R, B, RT}
+    function CompositeEquation(parent::Int, child::T, self::Int, fn::F, rheology::R, ind_input, ::Val{B}, el_number::RT) where {T, F, R, B, RT}
         @assert B isa Bool
         return new{B, T, F, R, RT}(parent, child, self, fn, rheology, ind_input, el_number)
 
@@ -51,11 +51,11 @@ solver vector `x`.
     end
 end
 
-function generate_equations(c::AbstractCompositeModel, fns_own_global::F, ind_input, ::Val{B}, ::Val, el_num; iparent::Int64 = 0, iself::Int64 = 0) where {F, B}
+function generate_equations(c::AbstractCompositeModel, fns_own_global::F, ind_input, ::Val{B}, ::Val, el_num; iparent::Int = 0, iself::Int = 0) where {F, B}
 
     @inline foo(::NTuple{N, Any}) where {N} = Val(N)
 
-    iself_ref = Ref{Int64}(iself)
+    iself_ref = Ref{Int}(iself)
     (; branches, leafs) = c
     local_el = el_num[1]
 
@@ -345,12 +345,12 @@ extract_local_kwargs(others, (:τ0,), 2) # τ0 = 3.0, d = 4
 extract_local_kwargs(others, (:d,), 2)  # τ0 = 1.1, d = 2
 ```
 """
-function extract_local_kwargs(others::NamedTuple, keys_hist::NTuple{M, Symbol}, n::Int64) where {M}
+function extract_local_kwargs(others::NamedTuple, keys_hist::NTuple{M, Symbol}, n::Int) where {M}
     vals_new = extract_local_kwargs(keys(others), values(others), keys_hist, n)
     return NamedTuple{keys(others)}(vals_new)
 end
 
-@generated function extract_local_kwargs(keys_args::NTuple{N, Symbol}, vals_args::NTuple{N, Union{_T, Tuple}}, keys_hist::NTuple{M, Symbol}, n::Int64) where {N, M, _T}
+@generated function extract_local_kwargs(keys_args::NTuple{N, Symbol}, vals_args::NTuple{N, Union{_T, Tuple}}, keys_hist::NTuple{M, Symbol}, n::Int) where {N, M, _T}
     return quote
         @inline
         Base.@ntuple $N i -> @inbounds _extract_local_kwargs(vals_args[i], keys_args[i], keys_hist, n)
@@ -503,7 +503,7 @@ end
 # Return a new NTuple with the first entry decreased by `cor`.
 @inline _subtract_first(r::NTuple{N}, cor) where {N} = (r[1] - cor, Base.tail(r)...)
 
-function compute_residual(c, x::SVector{N, T}, vars, others, ::Int64, ::Int64) where {N, T}
+function compute_residual(c, x::SVector{N, T}, vars, others, ::Int, ::Int) where {N, T}
 
     eqs = generate_equations(c)
     args_all = first(generate_args_template(eqs, x, others))
