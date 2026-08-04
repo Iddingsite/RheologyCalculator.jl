@@ -10,7 +10,7 @@ series, in parallel, or in nested hybrid networks, then converted into a
 nonlinear residual system solved with Newton iterations.
 
 The computational core is intentionally separate from any particular material
-catalogue. The repository's `rheologies/` directory contains example concrete
+catalogue. The module `RheologyModels` contains example concrete
 laws such as `LinearViscosity`, `Elasticity`, and `DruckerPrager`; project code
 can define its own types by extending the same state-function interface.
 
@@ -28,20 +28,15 @@ Pkg.add("RheologyCalculator")
 The package exports the composition and solver machinery ([`SeriesModel`](@ref),
 [`ParallelModel`](@ref), [`solve`](@ref), [`initial_guess_x`](@ref), …) but not
 the concrete constitutive elements used in the examples (`LinearViscosity`,
-`Elasticity`, `DruckerPrager`, and the rest). Those are defined in
-`rheologies/RheologyDefinitions.jl` in the repository, which extends the
+`Elasticity`, `DruckerPrager`, and the rest). Those are defined in the module
+`RheologyModels.jl`, which extends the
 state-function interface documented in [Rheologies](@ref), and must be loaded
 explicitly:
 
 ```julia
 using RheologyCalculator
-include("rheologies/RheologyDefinitions.jl")
+using RheologyCalculator.RheologyModels
 ```
-
-The `include` path is relative to the current working directory, so the examples
-here assume a clone of the repository. When the package is installed with
-`Pkg.add`, `include` the file by an absolute path, or copy it into your own
-project.
 
 The typical workflow is:
 
@@ -58,8 +53,7 @@ The typical workflow is:
 
 ```julia
 using RheologyCalculator
-
-include("rheologies/RheologyDefinitions.jl")
+using RheologyCalculator.RheologyModels
 
 viscous = LinearViscosity(1e22)
 elastic = IncompressibleElasticity(1e10)

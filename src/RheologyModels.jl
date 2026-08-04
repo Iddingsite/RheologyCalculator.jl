@@ -43,8 +43,8 @@ include("rheology/elastic/incompressible_elasticity.jl")
 include("rheology/plastic/frictional/Drucker_Prager.jl")
 include("rheology/plastic/frictional/Drucker_Prager_cap.jl")
 include("rheology/plastic/frictional/hyperbolic.jl")
-include("rheology/plastic/criticalstate/mod_Cam_Clay.jl")
-include("rheology/plastic/criticalstate/Golchin.jl")
+include("rheology/plastic/critical_state/mod_Cam_Clay.jl")
+include("rheology/plastic/critical_state/Golchin.jl")
 
 include("utils/tensor_helpers.jl")
 
