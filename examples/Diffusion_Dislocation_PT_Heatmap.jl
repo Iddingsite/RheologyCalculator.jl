@@ -1,4 +1,5 @@
-using RheologyCalculatorModels
+using RheologyCalculator
+using RheologyCalculator.RheologyModels
 
 using GLMakie
 using LaTeXStrings

@@ -2,11 +2,11 @@
 # Popov, A. A., Berlie, N., and Kaus, B. J. P.: A dilatant visco-elasto-viscoplasticity model with globally continuous tensile cap: 
 #   stable two-field mixed formulation, EGUsphere [preprint], https://doi.org/10.5194/egusphere-2025-2469, 2025.
 using Test, LinearAlgebra, Statistics
-using RheologyCalculatorModels
-import RheologyCalculatorModels: compute_stress_elastic, compute_pressure_elastic
+using RheologyCalculator.RheologyModels
+import RheologyCalculator.RheologyModels: compute_stress_elastic, compute_pressure_elastic
 using StaticArrays
 
-import RheologyCalculatorModels: DruckerPragerCap
+import RheologyCalculator.RheologyModels: DruckerPragerCap
 
 @testset "VEPCap Model " begin
     function stress_time(c, vars, x, xnorm, others; ntime = 200, dt = 1.0e8)
@@ -23,7 +23,7 @@ import RheologyCalculatorModels: DruckerPragerCap
         for i in 2:ntime
             others = (; dt = dt, τ0 = τ_e, P0 = P_e)       # other non-differentiable variables needed to evaluate the state functions
             
-            x = RheologyCalculatorModels.solve(c, x, vars, others, verbose = false, xnorm0=xnorm)
+            x = solve(c, x, vars, others, verbose = false, xnorm0=xnorm)
             
             t += others.dt
             

@@ -1,5 +1,6 @@
-using RheologyCalculatorModels, ForwardDiff
-using RheologyCalculatorModels: zero_stress_tensor_2D, elastic_stress_history_2D
+using RheologyCalculator
+using RheologyCalculator.RheologyModels, ForwardDiff
+using RheologyCalculator.RheologyModels: zero_stress_tensor_2D, elastic_stress_history_2D
 using StaticArrays
 
 

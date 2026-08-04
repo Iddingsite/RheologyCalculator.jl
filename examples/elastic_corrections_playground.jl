@@ -1,6 +1,7 @@
 # tests the elastic effective strainrate approach by computing the full tensor (in 2D, assuming that xx = -zz)
 # and comparing it to invariant formulation
-using RheologyCalculatorModels, StaticArrays
+using RheologyCalculator
+using RheologyCalculator.RheologyModels, StaticArrays
 
 using GLMakie
 using Statistics: mean

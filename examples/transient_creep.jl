@@ -1,5 +1,6 @@
-using ForwardDiff, RheologyCalculatorModels
-using RheologyCalculatorModels: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
+using ForwardDiff, RheologyCalculator.RheologyModels
+using RheologyCalculator
+using RheologyCalculator.RheologyModels: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 
 
 using GLMakie

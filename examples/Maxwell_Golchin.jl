@@ -1,13 +1,14 @@
 # This implements the Golchin yield function
 using Test, LinearAlgebra
-using RheologyCalculator, RheologyCalculatorModels
-using RheologyCalculatorModels: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
+using RheologyCalculator, RheologyCalculator.RheologyModels
+using RheologyCalculator
+using RheologyCalculator.RheologyModels: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 using RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 using GLMakie 
 using StaticArrays
 
 
-using RheologyCalculatorModels: Golchin, compute_F, compute_Q
+using RheologyCalculator.RheologyModels: Golchin, compute_F, compute_Q
 
 
 function stress_time(c, vars, x, xnorm, others; ntime = 200, dt = 1.0e8)
@@ -28,7 +29,7 @@ function stress_time(c, vars, x, xnorm, others; ntime = 200, dt = 1.0e8)
     for i in 2:ntime
         others = (; dt = dt, τ0 = τ_e, P0 = P_e)       # other non-differentiable variables needed to evaluate the state functions
         
-        x = RheologyCalculatorModels.solve(c, x, vars, others, verbose = true, xnorm0=xnorm)
+        x = solve(c, x, vars, others, verbose = true, xnorm0=xnorm)
         
         t += others.dt
         

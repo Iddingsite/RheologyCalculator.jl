@@ -5,15 +5,16 @@
 #
 # It also implements an adaptive timestepping scheme that is crucial
 
-using RheologyCalculatorModels
-using RheologyCalculatorModels: second_invariant_2D, vars_2D, stress_tensor_from_invariant_2D, elastic_stress_history_2D
+using RheologyCalculator
+using RheologyCalculator.RheologyModels
+using RheologyCalculator.RheologyModels: second_invariant_2D, vars_2D, stress_tensor_from_invariant_2D, elastic_stress_history_2D
 
 using GLMakie
 using Statistics: mean
 
 
 # This implements rate & state in an explicit manner, where "state" is not included in the local iterations
-using RheologyCalculatorModels: RateStateFriction, update_Ω, compute_strain_rate
+using RheologyCalculator.RheologyModels: RateStateFriction, update_Ω, compute_strain_rate
 
 """
     dt = compute_dt_ratestate(rs::RateState_HypoPlastic, re::AbstractElasticity, P, Vp, Ω; dt_min=1e-4, dt_max=1e6, f_courant=1e-3)

@@ -1,8 +1,8 @@
 using LinearAlgebra, Statistics, StaticArrays
 
-import RheologyCalculatorModels: ModCamClay
+import RheologyCalculator.RheologyModels: Hyperbolic
 
-@testset "Mod. Cam-Clay" begin
+# @testset "Hyperbolic   " begin
     function stress_time(c, vars, x, xnorm, others; ntime = 200, dt = 1.0e8)
         # Extract elastic stresses/pressure from solution vector
         τ1      = zeros(ntime)
@@ -17,8 +17,7 @@ import RheologyCalculatorModels: ModCamClay
         for i in 2:ntime
             others = (; dt = dt, τ0 = τ_e, P0 = P_e)       # other non-differentiable variables needed to evaluate the state functions
             
-            x = RheologyCalculatorModels.solve(c, x, vars, others, verbose = false, xnorm0=xnorm)
-            
+            x = solve(c, x, vars, others, verbose = false, xnorm0=xnorm)
             t += others.dt
             
             τ_e = elastic_stress_history_2D(c, x[1], vars.ε, τ_e, others)
@@ -36,7 +35,7 @@ import RheologyCalculatorModels: ModCamClay
 
         viscous = LinearViscosity(1e23)
         elastic = Elasticity(1e10, 2e11)
-        plastic = ModCamClay(; M=0.9, N=0.5, r=1e8, β=.1, Pt=-1e5, η_vp=1e20) 
+        plastic = Hyperbolic(; C=1e6, ϕ=30.0, ψ=5.0, η_vp=0.0, Pt=-5e5) 
 
         # Maxwell viscoelastic model
         c  = SeriesModel(viscous, elastic, plastic)
@@ -49,7 +48,7 @@ import RheologyCalculatorModels: ModCamClay
         others = (; dt = 1.0e5, τ0 = (zero_stress_tensor_2D(),), P0 = (0.3e6, ))
 
         x       = initial_guess_x(c, vars, args, others)
-        char_τ  = plastic.r*100
+        char_τ  = plastic.C
         char_ε  = second_invariant_2D(vars.ε) + abs(vars.θ)
         xnorm   = normalisation_x(c, char_τ, char_ε)
 
@@ -59,20 +58,20 @@ import RheologyCalculatorModels: ModCamClay
     SecYear = 3600 * 24 * 365.25
     t_v, τ, P = stress_time(c, vars_2D(0*7.0e-14, 7.0e-15), x, xnorm, others; ntime = 11, dt = SecYear*2)
     @test mean(τ) ≈ 0.0
-    @test mean(P) ≈ 1489.7454545486437
+    @test mean(P) ≈ -134205.23636363636
     @test all(isfinite, τ)
     @test all(isfinite, P)
 
-    t_v, τ, P = stress_time(c, vars_2D(0*7.0e-14, -7.0e-15), x, xnorm, others; ntime = 1300, dt = 1e8)
-    @test mean(τ) ≈ 0.0
-    @test mean(P) ≈ 8.41662039460073e7
+    t_v, τ, P = stress_time(c, vars_2D(7.0e-14, 0*7.0e-15), x, xnorm, others; ntime = 80, dt = 1e7)
+    @test mean(τ) ≈ 536901.6577557874
+    @test mean(P) ≈ 341487.7290700593
     @test all(isfinite, τ)
     @test all(isfinite, P)
 
-    t_v, τ, P = stress_time(c, vars_2D(7.0e-14, -4.0e-15), x, xnorm, others; ntime = 700, dt = 1e8)
-    @test mean(τ) ≈ 4.7872457278776795e7
-    @test mean(P) ≈ 3.080394041337929e7
+    t_v, τ, P = stress_time(c, vars_2D(7.0e-14, 7.0e-15), x, xnorm, others; ntime = 30, dt = 2e7)
+    @test mean(τ) ≈ 371075.3089791962
+    @test mean(P) ≈ 16814.444790283495
     @test all(isfinite, τ)
     @test all(isfinite, P)
 
-end
+# end

@@ -10,41 +10,43 @@ viscous, elastic, and plastic building blocks. Elements can be composed in
 series, in parallel, or in nested hybrid networks, then converted into a
 nonlinear residual system solved with Newton iterations.
 
-## Repository layout
+## Package layout
 
-This repository ships **two packages**:
+`RheologyCalculator.jl` is a package with the material catalogue nested
+inside it as a submodule, `RheologyCalculator.RheologyModels`:
 
-| Package | Location | What it is |
-| --- | --- | --- |
-| **`RheologyCalculator`** | repository root | The **core engine**: composition containers (`SeriesModel`, `ParallelModel`), equation generation, the Newton solver, and the state-function interface. Independent of any material catalogue. |
-| **`RheologyCalculatorModels`** | [`lib/RheologyCalculatorModels`](./lib/RheologyCalculatorModels) | Concrete constitutive elements (`LinearViscosity`, `Elasticity`, `DruckerPrager`, creep laws, …) plus advanced material models. **Start here if you just want to build and solve models.** |
+| | What it is |
+| --- | --- |
+| **`RheologyCalculator`** | The **core engine**: composition containers (`SeriesModel`, `ParallelModel`), equation generation, the Newton solver, and the state-function interface. Independent of any material catalogue. |
+| **`RheologyCalculator.RheologyModels`** | Concrete constitutive elements (`LinearViscosity`, `Elasticity`, `DruckerPrager`, creep laws, …) plus advanced material models, defined in [`src/RheologyModels.jl`](./src/RheologyModels.jl) and [`src/rheology/`](./src/rheology). **Start here if you just want to build and solve models.** |
 
-`RheologyCalculatorModels` depends on and **re-exports** `RheologyCalculator`, so
-a single `using RheologyCalculatorModels` gives you the full API — solver
-machinery *and* the material catalogue. Reach for `RheologyCalculator` on its own
-only when you want the solver engine without the bundled elements (for example,
-to supply your own material laws).
+`RheologyModels` only exports the material catalogue. To get both the solver engine and the concrete elements, `using`
+both:
+
+```julia
+using RheologyCalculator
+using RheologyCalculator.RheologyModels
+```
+
+Use bare `using RheologyCalculator` on its own only when you want the solver
+engine without the bundled elements (for example, to supply your own material
+laws).
 
 ## Installation
-
-The core engine is registered in the Julia General registry:
 
 ```julia
 using Pkg
 Pkg.add("RheologyCalculator")
 ```
 
-The models package lives in this repository under
-[`lib/RheologyCalculatorModels`](./lib/RheologyCalculatorModels) — see its
-[README](./lib/RheologyCalculatorModels/README.md) for how to use it.
-
 ## Quick Start
 
-To quickly build and solve models, use `RheologyCalculatorModels` (it re-exports the
-core, so this one import is all you need):
+To build and solve models, `using` both the engine and the `RheologyModels`
+submodule:
 
 ```julia
-using RheologyCalculatorModels
+using RheologyCalculator
+using RheologyCalculator.RheologyModels
 
 viscous = LinearViscosity(1e22)
 elastic = IncompressibleElasticity(1e10)
@@ -58,10 +60,6 @@ x = initial_guess_x(c, vars, args, others)
 x = solve(c, x, vars, others)
 ```
 
-> **Note:** `using RheologyCalculator` alone exports the composition and solver
-> machinery (`SeriesModel`, `ParallelModel`, `solve`, `initial_guess_x`, …) but
-> **not** the concrete elements (`LinearViscosity`, `Elasticity`, …). Those live
-> in `RheologyCalculatorModels`.
 
 ## Composite Models
 
@@ -95,13 +93,14 @@ the elastic correction derivation.
 
 ## Material models
 
-`RheologyCalculatorModels` bundles a catalogue of advanced material models. To
-keep the namespace small they are **not exported** — access them via the package
+`RheologyModels` bundles a catalogue of advanced material models. To
+keep the namespace small they are **not exported** — access them via the module
 prefix or an explicit import:
 
 ```julia
-using RheologyCalculatorModels
-import RheologyCalculatorModels: DruckerPragerCap, Hyperbolic, ModCamClay, Golchin, RateStateFriction
+using RheologyCalculator
+using RheologyCalculator.RheologyModels
+import RheologyCalculator.RheologyModels: DruckerPragerCap, Hyperbolic, ModCamClay, Golchin, RateStateFriction
 ```
 
 ### VEP + Cap (Popov et al., 2025)

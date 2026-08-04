@@ -6,7 +6,8 @@
 # --⟦▪̲̅▫̲̅▫̲̅▫̲̅¹----/\/\/¹--|--⟦▪̲̅▫̲̅▫̲̅▫̲̅²--|
 #                     |--/\/\/²--| 
 
-using RheologyCalculatorModels, StaticArrays
+using RheologyCalculator
+using RheologyCalculator.RheologyModels, StaticArrays
 
 using GLMakie
 using Statistics: mean

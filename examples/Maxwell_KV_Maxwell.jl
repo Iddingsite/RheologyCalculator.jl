@@ -1,5 +1,6 @@
-using RheologyCalculatorModels, StaticArrays
-using RheologyCalculatorModels: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
+using RheologyCalculator
+using RheologyCalculator.RheologyModels, StaticArrays
+using RheologyCalculator.RheologyModels: second_invariant_2D, vars_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 using Statistics: mean
 
 using GLMakie

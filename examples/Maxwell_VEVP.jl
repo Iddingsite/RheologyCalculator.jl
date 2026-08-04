@@ -1,5 +1,6 @@
-using RheologyCalculatorModels
-using RheologyCalculatorModels: second_invariant_2D, tensor_strain_rate_2D, zero_stress_tensor_2D, elastic_stress_history_2D
+using RheologyCalculator
+using RheologyCalculator.RheologyModels
+using RheologyCalculator.RheologyModels: second_invariant_2D, tensor_strain_rate_2D, zero_stress_tensor_2D, elastic_stress_history_2D
 using StaticArrays
 using GLMakie
 using LaTeXStrings
@@ -60,7 +61,7 @@ c, x, xnorm, vars, args, others, yield_stress = let
     c, x, xnorm, vars, args, others, yield_stress
 end
 
-# eqs = RheologyCalculatorModels.generate_equations(c)
+# eqs = RheologyCalculator.RheologyModels.generate_equations(c)
 # for eq in eqs
 #     println(
 #       "

@@ -48,4 +48,9 @@ export effective_strain_rate_correction
 
 include("display/print_rheology.jl")
 
-end # module Rheology
+# Concrete material catalogue (elements + advanced models) as a submodule.
+# Accessed via `RheologyCalculator.RheologyModels` or
+# `using RheologyCalculator.RheologyModels`.
+include("RheologyModels.jl")
+
+end # module RheologyCalculator
