@@ -12,9 +12,6 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 RheologyCalculator = "62cdc9a2-0e94-40de-8fb5-c079398d65d0"
 TimerOutputs = "a759f4b9-e2f1-59dc-863e-4aeb61b1ea8f"
 
-[sources.RheologyCalculator]
-path = "../.."
-
 [compat]
 Aqua = "0.8.13"
 ForwardDiff = "1.4.1"
@@ -22,6 +19,7 @@ JET = "0.9, 0.10, 0.11"
 LaTeXStrings = "1.4.0"
 LinearAlgebra = "1.10"
 Reexport = "1.2"
+RheologyCalculator = "0.1"
 StaticArrays = "1.9"
 Statistics = "1.10"
 TimerOutputs = "0.5.29"
