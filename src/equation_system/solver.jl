@@ -46,7 +46,7 @@ function solve(c::AbstractCompositeModel, x::SVector, vars0, others; xnorm0=noth
         J = ForwardDiff.jacobian(y -> compute_residual(c, y, vars, others), x)
         Δx = backsolve(J, r)
         if it > 1
-            α = bt_line_search(Δx, x, c, vars, others, xnorm; α = 1.0, ρ = 0.5, lstol = 0.95, α_min = 0.1)
+            α = bt_line_search(Δx, x, c, vars, others, xnorm, er; α = 1.0, ρ = 0.5, lstol = 0.95, α_min = 0.1)
         end
         x += α .* Δx
 
@@ -76,11 +76,7 @@ norm at `x + α * Δx` is at most `lstol` times the current residual norm. The
 undamped full step (`α = 1.0`) is accepted outright whenever it does not
 increase the residual, without requiring the stricter `lstol` reduction.
 """
-function bt_line_search(Δx, x, composite, vars, others, xnorm; α = 1.0, ρ = 0.5, lstol = 0.9, α_min = 1.0e-8)
-
-    perturbed_x = @. x + α * Δx
-    r = compute_residual(composite, x, vars, others)
-    rnorm = mynorm(r, xnorm)
+function bt_line_search(Δx, x, composite, vars, others, xnorm, rnorm; α = 1.0, ρ = 0.5, lstol = 0.9, α_min = 1.0e-8)
 
     # Iterate unless step length becomes too small
     while α > α_min
