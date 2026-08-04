@@ -14,15 +14,26 @@ import ForwardDiff: ForwardDiff
 import ..RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 export compute_stress_elastic, compute_pressure_elastic
 
-include("rheology/rheology_definitions.jl")
+# Basic viscous/elastic/plastic building blocks, one struct per file, grouped by
+# category. Advanced / application-specific models (built from these blocks) sit
+# alongside their category and are intentionally NOT exported.
+include("rheology/viscous/LinearViscosity.jl")
+include("rheology/viscous/PowerLawViscosity.jl")
+include("rheology/viscous/BulkViscosity.jl")
+include("rheology/viscous/LTPViscosity.jl")
+include("rheology/viscous/DiffusionCreep.jl")
+include("rheology/viscous/DislocationCreep.jl")
 
-# Advanced / application-specific material models built from the basic elements.
-# These are intentionally NOT exported
-include("rheology/models/Hyperbolic.jl")
-include("rheology/models/ModCamClay.jl")
-include("rheology/models/DruckerPragerCap.jl")
-include("rheology/models/Golchin.jl")
-include("rheology/models/RateState_HypoPlastic.jl")
+include("rheology/elastic/Elasticity.jl")
+include("rheology/elastic/BulkElasticity.jl")
+include("rheology/elastic/IncompressibleElasticity.jl")
+
+include("rheology/plastic/DruckerPrager.jl")
+include("rheology/plastic/DruckerPragerCap.jl")
+include("rheology/plastic/Golchin.jl")
+include("rheology/plastic/Hyperbolic.jl")
+include("rheology/plastic/ModCamClay.jl")
+include("rheology/plastic/RateState_HypoPlastic.jl")
 
 include("utils/tensor_helpers.jl")
 
