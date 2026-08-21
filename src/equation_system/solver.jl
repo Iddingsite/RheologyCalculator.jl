@@ -69,7 +69,7 @@ function solve(c::AbstractCompositeModel, x::SVector, vars0, others; xnorm0=noth
 end
 
 """
-    bt_line_search(Δx, x, composite, vars, others, xnorm; α=1.0, ρ=0.5, lstol=0.9, α_min=1.0e-8)
+    bt_line_search(Δx, x, composite, vars, others, xnorm, rnorm; α=1.0, ρ=0.5, lstol=0.9, α_min=1.0e-8)
 
 Backtracking line search that repeatedly shrinks `α` by `ρ` until the residual
 norm at `x + α * Δx` is at most `lstol` times the current residual norm. The
