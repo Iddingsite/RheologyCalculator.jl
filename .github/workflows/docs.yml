@@ -1,6 +1,7 @@
 # Note: this workflow is copied from the Trixi.jl package
 name: Documentation
 on:
+  pull_request:
   push:
     branches:
       - 'main'

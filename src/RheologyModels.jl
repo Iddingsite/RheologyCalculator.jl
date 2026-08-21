@@ -1,8 +1,8 @@
 """
     RheologyModels
 
-Build and solve local rheological models assembled from viscous, elastic, and
-plastic elements.
+Bundled viscous, elastic, and plastic material models for use with
+`RheologyCalculator`.
 """
 module RheologyModels
 

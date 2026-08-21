@@ -2,12 +2,11 @@
 
 The post-processing helpers [`compute_stress_elastic`](@ref RheologyCalculator.compute_stress_elastic)
 and [`compute_pressure_elastic`](@ref RheologyCalculator.compute_pressure_elastic)
-are not exported. The material elements are exported by the
-`RheologyCalculator.RheologyModels` submodule, so load both explicitly:
+are re-exported by the `RheologyCalculator.RheologyModels` submodule, along
+with the material elements. Load the package and submodule:
 
 ```julia
 using RheologyCalculator
-import RheologyCalculator: compute_stress_elastic, compute_pressure_elastic
 using RheologyCalculator.RheologyModels
 ```
 

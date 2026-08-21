@@ -29,7 +29,7 @@ The package exports the composition and solver machinery ([`SeriesModel`](@ref),
 [`ParallelModel`](@ref), [`solve`](@ref), [`initial_guess_x`](@ref), …) but not
 the concrete constitutive elements used in the examples (`LinearViscosity`,
 `Elasticity`, `DruckerPrager`, and the rest). Those are defined in the module
-`RheologyModels.jl`, which extends the
+`RheologyModels`, which extends the
 state-function interface documented in [Rheologies](@ref), and must be loaded
 explicitly:
 
