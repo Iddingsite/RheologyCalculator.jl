@@ -13,27 +13,39 @@ using StaticArrays
 @inline RheologyCalculator.safe_inv_one(v::AbstractTracer) = inv(v)
 @inline RheologyCalculator.norm_weight(xi, yi::AbstractTracer) = abs(xi / yi)
 
-# Union the sparsity patterns of every numeric leaf of a nested structure.
-tracer_union(acc, v::Number)                       = acc + v
-tracer_union(acc, v::Union{Tuple, AbstractArray})  = foldl(tracer_union, v; init = acc)
-tracer_union(acc, v::NamedTuple)                   = foldl(tracer_union, values(v); init = acc)
-tracer_union(acc, ::Any)                           = acc
+# Union the sparsity patterns of every numeric leaf of a nested structure
+tracer_union(acc, v::Number) = acc + v
+tracer_union(acc, v::NamedTuple) = tracer_union(acc, values(v))
+tracer_union(acc, ::Any) = acc
+
+function tracer_union(acc, v::Union{Tuple, AbstractArray})
+    for value in v
+        acc = tracer_union(acc, value)
+    end
+    return acc
+end
 
 """
-Sparsity short-circuit for the local Newton solve.
+Return a conservative sparsity pattern for the local Newton
+solve.
 
-Running the iteration under a global tracer is neither possible (the internal
-`ForwardDiff.jacobian` and the pivoted `\\` need primal values) nor necessary.
-By the implicit function theorem the converged solution satisfies
-`∂x*/∂v = -J⁻¹ ∂r/∂v`, and `J⁻¹` couples all local unknowns, so every component
-of `x*` depends on every traced input. Returning that union is the correct
-conservative sparsity pattern, and it avoids executing the constitutive laws,
-whose yield-function guards are themselves value-dependent, under a tracer.
+A global tracer records dependencies but has no numerical
+values, so the Newton
+iteration cannot run with one: it needs numerical Jacobians and
+a linear solve.
+
+Instead, every output is marked as depending on every traced
+input found in
+`x` and `vars`. This may include dependencies that are not
+present numerically,
+but it never omits one, which is the required property of a
+sparsity pattern.
 """
-function RheologyCalculator.solve(c::AbstractCompositeModel, x::SVector{N, T},
-                                  vars, others; kwargs...) where {N, T <: AbstractTracer}
-    dep = foldl(tracer_union, x; init = zero(T))
-    dep = tracer_union(dep, vars)
+function RheologyCalculator.solve(c::AbstractCompositeModel, x::SVector{N, T}, vars, others; kwargs...) where {N, T <: AbstractTracer}
+    dep = zero(T)
+    for value in (x, vars)
+        dep = tracer_union(dep, value)
+    end
     return SVector{N, T}(ntuple(_ -> dep, N))
 end
 

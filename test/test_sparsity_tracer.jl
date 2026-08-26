@@ -41,6 +41,16 @@ end
 
     others = (; dt = 1.0e5, τ0 = (zero_stress_tensor_2D(),), P0 = (0.3e6,))
     args = (; τ = 0.0e3, P = 0.3e6, λ = 0)
+    v0 = [7.0e-14, 7.0e-15]
+
+    function solve_outputs(input)
+        strain_rate, volumetric_strain_rate = input
+        vars = vars_2D(strain_rate, volumetric_strain_rate)
+        x = initial_guess_x(c, vars, args, others)
+        return solve(c, x, vars, others;
+            xnorm0 = normalisation_x(c, plastic.C, 7.0e-14),
+        )
+    end
 
     @testset "global sparsity detection succeeds" begin
         # Without the extension this throws
@@ -48,7 +58,7 @@ end
         S = SparseConnectivityTracer.jacobian_sparsity(
             solve_outputs, v0, TracerSparsityDetector(),
         )
-        @test size(S) == (2, 2)
+        @test size(S) == (length(normalisation_x(c, plastic.C, 7.0e-14)), length(v0))
 
         # The solve short-circuits under a tracer
         # each output must depend on every traced input.
@@ -63,13 +73,9 @@ end
     @testset "short-circuit returns one entry per unknown" begin
         n = length(normalisation_x(c, plastic.C, 7.0e-14))
         S = SparseConnectivityTracer.jacobian_sparsity(
-            v -> collect(solve(
-                c, initial_guess_x(c, vars_2D(v[1], v[2]), args, others),
-                vars_2D(v[1], v[2]), others;
-                xnorm0 = normalisation_x(c, plastic.C, 7.0e-14),
-            )), v0, TracerSparsityDetector(),
+            solve_outputs, v0, TracerSparsityDetector(),
         )
-        @test size(S) == (n, 2)
+        @test size(S) == (n, length(v0))
         @test all(S)
     end
 end
