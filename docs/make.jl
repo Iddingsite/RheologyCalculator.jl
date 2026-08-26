@@ -3,12 +3,13 @@ push!(LOAD_PATH, dirname(@__DIR__))
 using Documenter
 using DocumenterVitepress
 using RheologyCalculator
+using RheologyCalculator.RheologyModels
 
 @info "Making documentation..."
 makedocs(;
     sitename = "RheologyCalculator.jl",
     authors  = "Albert de Montserrat and Boris Kaus",
-    modules  = [RheologyCalculator],
+    modules  = [RheologyCalculator, RheologyCalculator.RheologyModels],
     format   = DocumenterVitepress.MarkdownVitepress(;
         repo = "github.com/albert-de-montserrat/RheologyCalculator.jl",
         devbranch = "main",

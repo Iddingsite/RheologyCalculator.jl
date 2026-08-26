@@ -1,8 +1,8 @@
 """
     RheologyModels
 
-Build and solve local rheological models assembled from viscous, elastic, and
-plastic elements.
+Bundled viscous, elastic, and plastic material models for use with
+`RheologyCalculator`.
 """
 module RheologyModels
 
@@ -24,27 +24,27 @@ export compute_stress_elastic, compute_pressure_elastic
 # surface or plastic multiplier -- compute_strain_rate is a smooth, invertible
 # function of stress at every stress level, exactly like the other non-Newtonian
 # (sinh-type) laws, so per its own AbstractViscosity supertype it belongs here.
-include("rheology/viscous/Newtonian/LinearViscosity.jl")
-include("rheology/viscous/Newtonian/BulkViscosity.jl")
-include("rheology/viscous/Newtonian/DiffusionCreep.jl")
-include("rheology/viscous/nonNewtonian/PowerLawViscosity.jl")
-include("rheology/viscous/nonNewtonian/LTPViscosity.jl")
-include("rheology/viscous/nonNewtonian/DislocationCreep.jl")
-include("rheology/viscous/nonNewtonian/RateState_HypoPlastic.jl")
+include("rheology/viscous/Newtonian/linear_viscosity.jl")
+include("rheology/viscous/Newtonian/bulk_viscosity.jl")
+include("rheology/viscous/Newtonian/diffusion_creep.jl")
+include("rheology/viscous/nonNewtonian/power_law_viscosity.jl")
+include("rheology/viscous/nonNewtonian/LTP_viscosity.jl")
+include("rheology/viscous/nonNewtonian/dislocation_creep.jl")
+include("rheology/viscous/nonNewtonian/rate_state_hypo_plastic.jl")
 
-include("rheology/elastic/Elasticity.jl")
-include("rheology/elastic/BulkElasticity.jl")
-include("rheology/elastic/IncompressibleElasticity.jl")
+include("rheology/elastic/elasticity.jl")
+include("rheology/elastic/bulk_elasticity.jl")
+include("rheology/elastic/incompressible_elasticity.jl")
 
 # plastic: frictional/Coulomb-type family (cohesion + friction + dilation angle;
 # open cone yield surface, with cap/smoothed-corner variants) vs critical-state
 # family (M/N + tensile/compaction pressure parametrization; closed elliptical
 # yield surface, e.g. Cam-Clay and its extensions).
-include("rheology/plastic/frictional/DruckerPrager.jl")
-include("rheology/plastic/frictional/DruckerPragerCap.jl")
-include("rheology/plastic/frictional/Hyperbolic.jl")
-include("rheology/plastic/criticalstate/ModCamClay.jl")
-include("rheology/plastic/criticalstate/Golchin.jl")
+include("rheology/plastic/frictional/Drucker_Prager.jl")
+include("rheology/plastic/frictional/Drucker_Prager_cap.jl")
+include("rheology/plastic/frictional/hyperbolic.jl")
+include("rheology/plastic/critical_state/mod_Cam_Clay.jl")
+include("rheology/plastic/critical_state/Golchin.jl")
 
 include("utils/tensor_helpers.jl")
 
