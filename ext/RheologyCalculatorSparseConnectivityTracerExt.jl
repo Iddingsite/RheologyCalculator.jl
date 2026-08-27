@@ -34,15 +34,14 @@ iteration cannot run with one: it needs numerical Jacobians and
 a linear solve.
 
 Instead, every output is marked as depending on every traced
-input found in
-`x` and `vars`. This may include dependencies that are not
+input found in `x`, `vars`, and `others`. This may include dependencies that are not
 present numerically,
 but it never omits one, which is the required property of a
 sparsity pattern.
 """
 function RheologyCalculator.solve(c::AbstractCompositeModel, x::SVector{N, T}, vars, others; kwargs...) where {N, T <: AbstractTracer}
     dep = zero(T)
-    for value in (x, vars)
+    for value in (x, vars, others)
         dep = tracer_union(dep, value)
     end
     return SVector{N, T}(ntuple(_ -> dep, N))

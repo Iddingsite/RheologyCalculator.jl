@@ -72,4 +72,52 @@ end
         @test size(S) == (n, length(v0))
         @test all(S)
     end
+
+    @testset "traced auxiliary values survive local extraction" begin
+        function extract_temperature(temperature_input)
+            others = (; T = temperature_input[1], dt = 1.0,
+                τ0 = ((0.0, 0.0, 0.0),))
+            local_others = RheologyCalculator.extract_local_kwargs(others, (:τ0,), 1)
+            return local_others.T
+        end
+
+        initial_temperature = [1.0]
+        detector = TracerSparsityDetector()
+        sparsity = SparseConnectivityTracer.jacobian_sparsity(
+            extract_temperature, initial_temperature, detector,
+        )
+
+        # The local temperature remains connected to its single input even
+        # though `others` also contains Float64 and history-tuple fields.
+        expected_sparsity = trues(1, 1)
+        @test sparsity == expected_sparsity
+    end
+
+    @testset "short-circuit includes auxiliary dependencies" begin
+        n = length(normalisation_x(c, plastic.C, 7.0e-14))
+
+        function solve_with_temperature(inputs)
+            stress_seed = inputs[1]
+            temperature = inputs[2]
+
+            # `x` must be tracer-valued to dispatch to the tracer-only solve.
+            # It depends only on `stress_seed`; temperature is supplied only
+            # through `others`.
+            x = SVector{n}(fill(stress_seed, n))
+            vars = (; ε = 0.0)
+            others = (; T = temperature)
+            return solve(c, x, vars, others)
+        end
+
+        initial_inputs = [1.0, 1.0]
+        detector = TracerSparsityDetector()
+        sparsity = SparseConnectivityTracer.jacobian_sparsity(
+            solve_with_temperature, initial_inputs, detector,
+        )
+
+        # Every local solution component conservatively depends on both the
+        # traced solver seed and the temperature stored in `others`.
+        expected_sparsity = trues(n, 2)
+        @test sparsity == expected_sparsity
+    end
 end
