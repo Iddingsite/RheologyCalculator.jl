@@ -1,8 +1,8 @@
 # RheologyCalculator.jl
 
-[![CI](https://github.com/albert-de-montserrat/RheologyCalculator.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/albert-de-montserrat/RheologyCalculator.jl/actions/workflows/ci.yml)
-[![Docs](https://img.shields.io/badge/docs-dev-blue.svg)](https://albert-de-montserrat.github.io/RheologyCalculator.jl/dev/)
-[![codecov](https://codecov.io/gh/albert-de-montserrat/RheologyCalculator.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/albert-de-montserrat/RheologyCalculator.jl)
+[![CI](https://github.com/juliageodynamics/RheologyCalculator.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/juliageodynamics/RheologyCalculator.jl/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-dev-blue.svg)](https://juliageodynamics.github.io/RheologyCalculator.jl/dev/)
+[![codecov](https://codecov.io/gh/juliageodynamics/RheologyCalculator.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/juliageodynamics/RheologyCalculator.jl)
 [![version](https://juliahub.com/docs/General/RheologyCalculator/stable/version.svg)](https://juliahub.com/ui/Packages/General/RheologyCalculator)
 
 `RheologyCalculator.jl` builds and solves local rheological models from small
