@@ -11,7 +11,6 @@ using StaticArrays
 # identical either way.
 @inline RheologyCalculator.safe_inv(v::AbstractTracer)     = inv(v)
 @inline RheologyCalculator.safe_inv_one(v::AbstractTracer) = inv(v)
-@inline RheologyCalculator.norm_weight(xi, yi::AbstractTracer) = abs(xi / yi)
 
 # Union the sparsity patterns of every numeric leaf of a nested structure
 tracer_union(acc, v::Number) = acc + v

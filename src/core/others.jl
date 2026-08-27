@@ -64,4 +64,3 @@ end
 # same with or without them. Float64 behaviour is unchanged.
 @inline safe_inv(v)      = iszero(v) ? zero(v) : inv(v)
 @inline safe_inv_one(v)  = iszero(v) ? one(v)  : inv(v)
-@inline norm_weight(xi, yi) = !iszero(yi) * abs(xi / yi)

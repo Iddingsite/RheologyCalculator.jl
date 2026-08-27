@@ -6,7 +6,7 @@ using ForwardDiff
 using SparseConnectivityTracer
 
 import RheologyCalculator: initial_guess_x, normalisation_x, solve, SeriesModel,
-    safe_inv, safe_inv_one, norm_weight
+    safe_inv, safe_inv_one
 import RheologyCalculator.RheologyModels: DruckerPragerCap
 
 # The tracer guards replaced three inline value-dependent expressions. Pin the
@@ -21,12 +21,6 @@ import RheologyCalculator.RheologyModels: DruckerPragerCap
     @test safe_inv_one(0.0) === 1.0    # guard: neutral element, no Inf
     @test safe_inv(4.0)     === 0.25
     @test safe_inv_one(4.0) === 0.25
-
-    for (xi, yi) in ((3.0, 2.0), (-3.0, 2.0), (3.0, -2.0))
-        @test norm_weight(xi, yi) === !iszero(yi) * abs(xi / yi)
-    end
-    @test norm_weight(3.0, 0.0) === 0.0    # guard: zero normalisation contributes nothing
-    @test norm_weight(3.0, 2.0) === 1.5
 end
 
 @testset "SparseConnectivityTracer extension" begin

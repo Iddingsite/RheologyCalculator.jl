@@ -113,7 +113,7 @@ normalization factor is zero.
         Base.@nexprs $N i -> begin
             xi = @inbounds x[i]
             yi = @inbounds y[i]
-            v += norm_weight(xi, yi)
+            v += !iszero(yi) * abs(xi / yi)
         end
         return v
     end
