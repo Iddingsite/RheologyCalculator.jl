@@ -11,7 +11,7 @@ makedocs(;
     authors  = "Albert de Montserrat and Boris Kaus",
     modules  = [RheologyCalculator, RheologyCalculator.RheologyModels],
     format   = DocumenterVitepress.MarkdownVitepress(;
-        repo = "github.com/albert-de-montserrat/RheologyCalculator.jl",
+        repo = "github.com/JuliaGeodynamics/RheologyCalculator.jl",
         devbranch = "main",
         devurl = "dev",
         sidebar_drawer = true,
@@ -32,7 +32,7 @@ makedocs(;
 )
 
 DocumenterVitepress.deploydocs(;
-    repo       = "github.com/albert-de-montserrat/RheologyCalculator.jl",
+    repo       = "github.com/JuliaGeodynamics/RheologyCalculator.jl",
     target     = joinpath(@__DIR__, "build"),
     branch     = "gh-pages",
     devbranch  = "main",
