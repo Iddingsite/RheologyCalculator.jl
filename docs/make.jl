@@ -27,6 +27,7 @@ makedocs(;
         "Rheology" => "rheology.md",
         "Solving" => "stress.md",
         "Elastic correction" => "strain_rate_correction.md",
+        "Sparsity detection" => "sparsity_detection.md",
         "API" => "api.md",
     ],
 )

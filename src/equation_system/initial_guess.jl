@@ -161,9 +161,9 @@ the counterpart function.
             args_invariant = tensor2invariant(args_combined)
             val = fn_c(rheology[i], args_invariant)
             # harmonic mean
-            sum_vals += iszero(val) ? zero(val) : inv(val)
+            sum_vals += safe_inv(val)
         end
-        return iszero(sum_vals) ? one(sum_vals) : inv(sum_vals)
+        return safe_inv_one(sum_vals)
     end
 end
 

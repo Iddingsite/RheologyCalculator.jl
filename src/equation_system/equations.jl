@@ -350,7 +350,7 @@ function extract_local_kwargs(others::NamedTuple, keys_hist::NTuple{M, Symbol}, 
     return NamedTuple{keys(others)}(vals_new)
 end
 
-@generated function extract_local_kwargs(keys_args::NTuple{N, Symbol}, vals_args::NTuple{N, Union{_T, Tuple}}, keys_hist::NTuple{M, Symbol}, n::Int) where {N, M, _T}
+@generated function extract_local_kwargs(keys_args::NTuple{N, Symbol}, vals_args::NTuple{N, Any}, keys_hist::NTuple{M, Symbol}, n::Int) where {N, M}
     return quote
         @inline
         Base.@ntuple $N i -> @inbounds _extract_local_kwargs(vals_args[i], keys_args[i], keys_hist, n)
